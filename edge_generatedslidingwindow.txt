@@ -1,0 +1,22 @@
+import cv2
+import imutils
+
+def sliding_window(image, stepSize, windowSize):
+    # slide a window across the image
+    for y in range(0, image.shape[0], stepSize):
+        for x in range(0, image.shape[1], stepSize):
+            # yield the current window
+            yield (x, y, image[y:y + windowSize[1], x:x + windowSize[0]])
+
+# Load your image here
+image = cv2.imread('path/to/image.jpg')
+
+# Define your sliding window parameters here
+stepSize = 10
+windowSize = (50, 50)
+
+# Loop over each sliding window and do something with it
+for (x, y, window) in sliding_window(image, stepSize=stepSize, windowSize=windowSize):
+    # Do something with your sliding windows here
+    pass
+
