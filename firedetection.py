@@ -6,36 +6,24 @@
 import cv2
 import numpy as np
 
-def ParamsFit():
-    
-    return False
-
-#scale and window paramaters
+#scale, window, and step paramaters
 #values should be > 0. should also be <= 1 for reasonable applications, but technically doesn't have to be
-    #could set up a scale-window system where only certain ratios are allowed
-    #OR
-    #set up where you don't decide the exact size of the window, you decide its size relative to the whole image
-    #ultimately should be able to be set to whatever, but to start off can be set to a discrete range of values
 scale = 0.1
-winWidthp = 0.5 #percentage of the frame width that window width should be
-winHeightp = 0.5 #percentage of the frame height that window height should be
+winWidthp = 0.2 #percentage of the frame width that window width should be
+winHeightp = 0.2 #percentage of the frame height that window height should be
 stepWidthp = 1 #percentage of the window width that should be stepped over when moving to the next window
 stepHeightp = 1 #percentage of the window height that should be stepped over when moving to the next row of windows
 
-
 fn = "sf6.jpeg"
 frame = cv2.imread('./input images/'+fn)
-#print("height: "+str(len(frame))+", width: "+str(len(frame[0])))
+#print("frame height: "+str(len(frame))+", frame width: "+str(len(frame[0])))
 
-#could scale image based on the window parameters that are passed in, but then not a "true" scale
+#resizing frame based on scale
 resized = cv2.resize(frame, None, fx=scale, fy=scale)
 frameHeight = len(resized)
 frameWidth = len(resized[0])
-print(f"height:{frameHeight}, width:{frameWidth}")
-
-# #cropping image to get just the fire
-# cropped = resized[200:225,675:715] #the resized image is a 25x50x3 3D array
-# cv2.imwrite("./sf6-croppedsmoke.jpeg",cropped)
+print(f"scaled height: {frameHeight}, scaled width:{frameWidth}")
+# cv2.imwrite(f"./scaled images/scale={scale}-{fn}",resized)
 
 # #writing all the color values to a txt file
 # wfile = open("sf6-croppedsmokecolors.txt",'w')
@@ -45,38 +33,53 @@ print(f"height:{frameHeight}, width:{frameWidth}")
 #     wfile.write("\n")
 
 boundaries = [[0,50,191],[160,220,255]] #fire boundaries
-# boundaries = [[80,80,80],[130,130,130]] #smoke boundaries
 
 lower = np.array(boundaries[0])
 upper = np.array(boundaries[1])
 
-#blurring the image before processing it may actually help in detection
 windowHeight = (int)(winHeightp*frameHeight)
 windowWidth = (int)(winWidthp*frameWidth)
 stepHeight = (int)(windowHeight*stepHeightp)
 stepWidth = (int)(windowWidth*stepWidthp)
-counter=0
+
+# #checking if the window/step sizes fit the scaled image, this block can be deleted, doesn't affect functionality
+# heightRemainder = ((frameHeight%windowHeight)%stepHeight)
+# widthRemainder = ((frameWidth%windowWidth)%stepWidth)
+# print(f"heightRemainder: {heightRemainder}, widhtRemainder: {widthRemainder}")
+
+numWindowsProcessed=0 #this can be deleted, doesn't affect program functionality
 print(f"winHeight: {windowHeight}, windowWidth: {windowWidth}, stepHeight: {stepHeight}, stepWidth: {stepWidth}")
-red_threshold = (int)((frameHeight*frameWidth)/10000) #0.01% of the image
-#need to make sure all pixels are being processed
+pixelThreshold = (int)((frameHeight*frameWidth)/10000) #0.01% of the image
+print(f"pixel threshold: {pixelThreshold}")
+
+# nested loop reads image left to right and top to bottom
+heightOutOfBounds = False
 for y in range(0,frameHeight,stepHeight):
+    yWinLen = y+windowHeight
+    yLenNxtWin = yWinLen+stepHeight #height along frame of next window
+    if yLenNxtWin>frameHeight: #checking if the window height is out of bounds
+        yWinLen+=(windowHeight-(yLenNxtWin-frameHeight)) #adding on to the current window the portion of the next window that's in bounds
+        heightOutOfBounds = True
+    widthOutOfBounds = False
     for x in range(0,frameWidth,stepWidth):
-        window = resized[y:(y+windowHeight),x:(x+windowWidth)]
+        xWinLen = x+windowWidth
+        xLenNxtWin = xWinLen+stepWidth
+        if xLenNxtWin>frameWidth: 
+            xWinLen+=(windowWidth-(xLenNxtWin-frameWidth))
+            widthOutOfBounds = True
+        window = resized[y:(yWinLen),x:(xWinLen)]
+        print(f"height: {len(window)}, width: {len(window[0])}: [{y}:{yWinLen},{x}:{xWinLen}]")
         mask = cv2.inRange(window, lower, upper)
         numRed = cv2.countNonZero(mask)
-        if numRed>red_threshold:
-            print(f"fire detected, numRed={numRed}, range=[{y}:{y+windowHeight},{x}:{x+windowHeight}]")
+        if numRed>pixelThreshold:
+            print(f"fire detected, numRed={numRed}, range=[{y}:{yWinLen},{x}:{xWinLen}]")
             # cv2.imshow("window",window)
             # cv2.waitKey(0)
-            # cv2.imshow("masked",mask)
-            # cv2.waitKey(0)
-        counter+=1
+        numWindowsProcessed+=1
+        if widthOutOfBounds: break
+    if heightOutOfBounds: break
 
-# #numWinsProcessed = (frameWidth*frameHeight)/((windowWidth*windowHeight)/(stepWidth*stepHeight)) #this calculation isn't correct
-print(f"number of windows processed: {counter}")
-
-# mask = cv2.inRange(resized, lower, upper)
-# numGrey = cv2.countNonZero(mask)
+print(f"number of windows processed: {numWindowsProcessed}")
 
 # #creating string for write file
 # wstring = "["

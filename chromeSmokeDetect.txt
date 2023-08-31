@@ -1,0 +1,46 @@
+To detect smoke using OpenCV in Python, you can use the following steps:
+Import the necessary libraries.
+Load an image or video.
+Convert the image to grayscale.
+Apply a threshold to the image to binarize it.
+Use a morphology operation to remove small objects from the image.
+Find the contours in the image.
+Classify the contours as smoke or not smoke.
+
+Code:
+    import cv2
+    import numpy as np
+
+    # Load an image
+    image = cv2.imread('image.jpg')
+
+    # Convert the image to grayscale
+    gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+
+    # Apply a threshold to the image to binarize it
+    thresh = cv2.threshold(gray, 128, 255, cv2.THRESH_BINARY)[1]
+
+    # Use a morphology operation to remove small objects from the image
+    kernel = np.ones((5, 5), np.uint8)
+    thresh = cv2.morphologyEx(thresh, cv2.MORPH_OPEN, kernel)
+
+    # Find the contours in the image
+    contours, hierarchy = cv2.findContours(thresh, cv2.RETR_TREE, cv2.CHAIN_APPROX_SIMPLE)
+
+    # Classify the contours as smoke or not smoke
+    smoke_contours = []
+    for contour in contours:
+        # Calculate the area of the contour
+        area = cv2.contourArea(contour)
+
+        # If the area is greater than a certain threshold, classify the contour as smoke
+        if area > 1000:
+            smoke_contours.append(contour)
+
+    # Draw the smoke contours on the image
+    cv2.drawContours(image, smoke_contours, -1, (0, 0, 255), 2)
+
+    # Display the image
+    cv2.imshow('Smoke Detection', image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
