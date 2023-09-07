@@ -4,10 +4,11 @@ import cv2
 import numpy as np
 
 class FDProcess:
-    def __init__(self, scale, winWidthp, winHeightp, stepWidthp, stepHeightp):
+    def __init__(self, scale, percentageOrSet, winWidth, winHeight, stepWidthp, stepHeightp):
         self.scale = scale
-        self.winWidthp = winWidthp
-        self.winHeightp = winHeightp
+        self.percentageOrSet = percentageOrSet
+        self.winWidth = winWidth
+        self.winHeight = winHeight
         self.stepWidthp = stepWidthp
         self.stepHeightp = stepHeightp
 
@@ -29,8 +30,13 @@ class FDProcess:
         # mask1 = cv2.inRange(frame,lower,upper)
         # cv2.imwrite(f"./masks/{boundaries}{fn}",mask1)
 
-        windowHeight = (int)(self.winHeightp*frameHeight)
-        windowWidth = (int)(self.winWidthp*frameWidth)
+        if self.percentageOrSet == 0:
+            windowHeight = (int)(self.winHeight*frameHeight)
+            windowWidth = (int)(self.winWidth*frameWidth)
+        else:
+            windowWidth = self.winWidth
+            windowHeight = self.winHeight
+
         stepHeight = (int)(windowHeight*self.stepHeightp)
         stepWidth = (int)(windowWidth*self.stepWidthp)
 
