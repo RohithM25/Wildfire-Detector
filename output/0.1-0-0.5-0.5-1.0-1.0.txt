@@ -1,0 +1,160 @@
+original image height: 500, original image width: 1000
+scaled height: 50, scaled width: 100
+windowHeight: 25, windowWidth: 50
+stepHeight: 25, stepWidth: 50
+pixel threshold: 0
+--------------------------------------------------------
+--------------------------------------------------------
+"sf6-resized1000,500.jpeg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0156386 seconds
+-------
+"sf6-resized1000,500.jpeg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0156839 seconds
+-------
+"sf6-resized1000,500.jpeg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0164194 seconds
+-------
+"sf6-resized1000,500.jpeg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0150776 seconds
+-------
+"sf6-resized1000,500.jpeg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0157020 seconds
+-------
+Average time for 5 iterations: 0.0157043
+-------------------------------------------------
+"sf6-no fire.jpg"
+number of windows processed: 4
+Correctly Processed
+0.0156283 seconds
+-------
+"sf6-no fire.jpg"
+number of windows processed: 4
+Correctly Processed
+0.0155694 seconds
+-------
+"sf6-no fire.jpg"
+number of windows processed: 4
+Correctly Processed
+0.0156982 seconds
+-------
+"sf6-no fire.jpg"
+number of windows processed: 4
+Correctly Processed
+0.0000000 seconds
+-------
+"sf6-no fire.jpg"
+number of windows processed: 4
+Correctly Processed
+0.0314512 seconds
+-------
+Average time for 5 iterations: 0.0156694
+-------------------------------------------------
+"sf6-no smoke.jpg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0157182 seconds
+-------
+"sf6-no smoke.jpg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0276301 seconds
+-------
+"sf6-no smoke.jpg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0317590 seconds
+-------
+"sf6-no smoke.jpg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0324459 seconds
+-------
+"sf6-no smoke.jpg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0322688 seconds
+-------
+Average time for 5 iterations: 0.0279644
+-------------------------------------------------
+"sf6-no water.jpg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0160077 seconds
+-------
+"sf6-no water.jpg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0120406 seconds
+-------
+"sf6-no water.jpg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0120065 seconds
+-------
+"sf6-no water.jpg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0371644 seconds
+-------
+"sf6-no water.jpg"
+fire detected, numRed=1, range=[25:50,50:100]
+number of windows processed: 4
+Correctly Processed
+0.0199871 seconds
+-------
+Average time for 5 iterations: 0.0194413
+-------------------------------------------------
+"sf6-very small fire.jpg"
+number of windows processed: 4
+Incorrectly Processed
+0.0197439 seconds
+-------
+"sf6-very small fire.jpg"
+number of windows processed: 4
+Incorrectly Processed
+0.0105281 seconds
+-------
+"sf6-very small fire.jpg"
+number of windows processed: 4
+Incorrectly Processed
+0.0164130 seconds
+-------
+"sf6-very small fire.jpg"
+number of windows processed: 4
+Incorrectly Processed
+0.0160134 seconds
+-------
+"sf6-very small fire.jpg"
+number of windows processed: 4
+Incorrectly Processed
+0.0160480 seconds
+-------
+Average time for 5 iterations: 0.0157493
+-------------------------------------------------
+--------------------------------------------------------
+Total time to process all 25 images: 0.4726434 seconds
+Accuracy: 20/25 = 80%

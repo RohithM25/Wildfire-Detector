@@ -1,0 +1,165 @@
+original image height: 500, original image width: 1000
+scaled height: 250, scaled width: 500
+windowHeight: 125, windowWidth: 250
+stepHeight: 125, stepWidth: 250
+pixel threshold: 12
+--------------------------------------------------------
+--------------------------------------------------------
+"sf6-resized1000,500.jpeg"
+fire detected, numRed=23, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0087779 seconds
+-------
+"sf6-resized1000,500.jpeg"
+fire detected, numRed=23, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0150867 seconds
+-------
+"sf6-resized1000,500.jpeg"
+fire detected, numRed=23, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0156896 seconds
+-------
+"sf6-resized1000,500.jpeg"
+fire detected, numRed=23, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0155807 seconds
+-------
+"sf6-resized1000,500.jpeg"
+fire detected, numRed=23, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0156200 seconds
+-------
+Average time for 5 iterations: 0.0141510
+-------------------------------------------------
+"sf6-no fire.jpg"
+number of windows processed: 4
+Correctly Processed
+0.0156176 seconds
+-------
+"sf6-no fire.jpg"
+number of windows processed: 4
+Correctly Processed
+0.0156305 seconds
+-------
+"sf6-no fire.jpg"
+number of windows processed: 4
+Correctly Processed
+0.0157228 seconds
+-------
+"sf6-no fire.jpg"
+number of windows processed: 4
+Correctly Processed
+0.0311477 seconds
+-------
+"sf6-no fire.jpg"
+number of windows processed: 4
+Correctly Processed
+0.0156376 seconds
+-------
+Average time for 5 iterations: 0.0187512
+-------------------------------------------------
+"sf6-no smoke.jpg"
+fire detected, numRed=23, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0156167 seconds
+-------
+"sf6-no smoke.jpg"
+fire detected, numRed=23, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0156269 seconds
+-------
+"sf6-no smoke.jpg"
+fire detected, numRed=23, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0156245 seconds
+-------
+"sf6-no smoke.jpg"
+fire detected, numRed=23, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0156229 seconds
+-------
+"sf6-no smoke.jpg"
+fire detected, numRed=23, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0156286 seconds
+-------
+Average time for 5 iterations: 0.0156239
+-------------------------------------------------
+"sf6-no water.jpg"
+fire detected, numRed=21, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0156217 seconds
+-------
+"sf6-no water.jpg"
+fire detected, numRed=21, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0156205 seconds
+-------
+"sf6-no water.jpg"
+fire detected, numRed=21, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0312798 seconds
+-------
+"sf6-no water.jpg"
+fire detected, numRed=21, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0155954 seconds
+-------
+"sf6-no water.jpg"
+fire detected, numRed=21, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0156245 seconds
+-------
+Average time for 5 iterations: 0.0187484
+-------------------------------------------------
+"sf6-very small fire.jpg"
+fire detected, numRed=14, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0156260 seconds
+-------
+"sf6-very small fire.jpg"
+fire detected, numRed=14, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0167892 seconds
+-------
+"sf6-very small fire.jpg"
+fire detected, numRed=14, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0145655 seconds
+-------
+"sf6-very small fire.jpg"
+fire detected, numRed=14, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0163841 seconds
+-------
+"sf6-very small fire.jpg"
+fire detected, numRed=14, range=[125:250,250:500]
+number of windows processed: 4
+Correctly Processed
+0.0150876 seconds
+-------
+Average time for 5 iterations: 0.0156905
+-------------------------------------------------
+--------------------------------------------------------
+Total time to process all 25 images: 0.4148247 seconds
+Accuracy: 25/25 = 100%
