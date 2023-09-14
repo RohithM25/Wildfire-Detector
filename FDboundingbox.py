@@ -51,7 +51,6 @@ class FDboundingbox:
                 if numRed>pixelThreshold:
                     print("fire detected, numRed={}, range=[{}:{},{}:{}]".format(numRed,y,yWinLen,x,xWinLen))
                     scaled = cv2.rectangle(scaled,(x,y),(xWinLen,yWinLen),(0,255,0),1)
-                    fireDetected = True
                     # cv2.imshow("window",window)
                     # cv2.waitKey(0)
                 numWindowsProcessed+=1
