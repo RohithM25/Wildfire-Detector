@@ -31,6 +31,7 @@ class FDboundingbox:
         pixelThreshold = params.pixelThreshold
 
         # nested loop reads image left to right and top to bottom
+        fireDetected = False
         heightOutOfBounds = False
         for y in range(0,scaledHeight,stepHeight):
             yWinLen = y+windowHeight
@@ -50,7 +51,8 @@ class FDboundingbox:
                 numRed = cv2.countNonZero(mask)
                 if numRed>pixelThreshold:
                     print("fire detected, numRed={}, range=[{}:{},{}:{}]".format(numRed,y,yWinLen,x,xWinLen))
-                    boxed = cv2.rectangle(scaled,(x,y),(xWinLen,yWinLen),(0,255,0),1)
+                    scaled = cv2.rectangle(scaled,(x,y),(xWinLen,yWinLen),(0,255,0),1)
+                    fireDetected = True
                     # cv2.imshow("window",window)
                     # cv2.waitKey(0)
                 numWindowsProcessed+=1
@@ -58,7 +60,7 @@ class FDboundingbox:
             if heightOutOfBounds: break
 
         print("number of windows processed: {}".format(numWindowsProcessed))
-        cv2.imshow("boxed",boxed)
+        cv2.imshow("boxed",scaled)
         cv2.waitKey(0)
 
         cv2.destroyAllWindows()
