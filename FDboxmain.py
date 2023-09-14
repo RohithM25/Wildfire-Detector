@@ -43,5 +43,5 @@ pixelThreshold = (int)((scaledHeight*scaledWidth)/10000) #0.01% of the image
 params = fdparams.FDparams(None,scale,scaledHeight,scaledWidth,windowWidth,windowHeight,stepWidth,stepHeight,pixelThreshold)
 imageProcessor = fdb.FDboundingbox(params)
 
-image = "sf6-resized1000,500.jpeg"
+image = "sf6-no fire.jpg"
 imageProcessor.processImage(image)

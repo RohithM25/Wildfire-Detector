@@ -31,7 +31,6 @@ class FDboundingbox:
         pixelThreshold = params.pixelThreshold
 
         # nested loop reads image left to right and top to bottom
-        fireDetected = False
         heightOutOfBounds = False
         for y in range(0,scaledHeight,stepHeight):
             yWinLen = y+windowHeight
