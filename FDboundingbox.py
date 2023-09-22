@@ -7,10 +7,8 @@ class FDboundingbox:
     def __init__(self, parameters):
         self.params = parameters
 
-    def processImage(self, image):
+    def processImage(self, image, initFrame):
         params = self.params
-
-        initFrame = cv2.imread("./input images/"+image)
         
         #resizing frame based on scale
         scaled = cv2.resize(initFrame, None, fx=params.scale, fy=params.scale)
@@ -18,8 +16,8 @@ class FDboundingbox:
         boundaries = [[0,50,191],[160,220,255]] #fire boundaries
         lower = np.array(boundaries[0])
         upper = np.array(boundaries[1])
-        # mask1 = cv2.inRange(frame,lower,upper)
-        # cv2.imwrite(f"./masks/{boundaries}{fn}",mask1)
+        mask1 = cv2.inRange(initFrame,lower,upper)
+        cv2.imwrite(f"./masks/{boundaries}{image}",mask1)
 
         numWindowsProcessed=0 #this can be deleted, doesn't affect program functionality
         scaledHeight = params.scaledHeight
@@ -50,7 +48,7 @@ class FDboundingbox:
                 numRed = cv2.countNonZero(mask)
                 if numRed>pixelThreshold:
                     print("fire detected, numRed={}, range=[{}:{},{}:{}]".format(numRed,y,yWinLen,x,xWinLen))
-                    scaled = cv2.rectangle(scaled,(x,y),(xWinLen,yWinLen),(0,255,0),1)
+                    scaled = cv2.rectangle(scaled,(x,y),(xWinLen,yWinLen),(0,255,0),2)
                     # cv2.imshow("window",window)
                     # cv2.waitKey(0)
                 numWindowsProcessed+=1

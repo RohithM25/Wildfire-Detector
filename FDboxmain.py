@@ -1,6 +1,7 @@
 import sys
 import FDboundingbox as fdb
 import FDparams as fdparams
+import cv2
 
 #scale, window, and step paramaters. these parameters are taken in as command line arguments
 #values should be > 0. should also be <= 1 for reasonable applications, but technically doesn't have to be
@@ -22,8 +23,10 @@ else:
 stepWidthp = float(sys.argv[5]) #percentage of the window width that should be stepped over when moving to the next window
 stepHeightp = float(sys.argv[6]) #percentage of the window height that should be stepped over when moving to the next row of windows
 
-initHeight=500
-initWidth=1000
+image = "hazmonDB4.jpeg"
+initFrame = cv2.imread("./input images/"+image)
+initHeight=len(initFrame)
+initWidth=len(initFrame[0])
 
 scaledHeight = (int)(initHeight*scale)
 scaledWidth = (int)(initWidth*scale)
@@ -43,5 +46,4 @@ pixelThreshold = (int)((scaledHeight*scaledWidth)/10000) #0.01% of the image
 params = fdparams.FDparams(None,scale,scaledHeight,scaledWidth,windowWidth,windowHeight,stepWidth,stepHeight,pixelThreshold)
 imageProcessor = fdb.FDboundingbox(params)
 
-image = "sf6-no fire.jpg"
-imageProcessor.processImage(image)
+imageProcessor.processImage(image,initFrame)
