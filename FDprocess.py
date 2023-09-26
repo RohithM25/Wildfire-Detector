@@ -7,7 +7,7 @@ class FDProcess:
     def __init__(self, parameters):
         self.params = parameters
 
-    def processImage(self, image, numCorrect):
+    def processImage(self, image):
         params = self.params
         
         wfile = params.writeFile
@@ -62,33 +62,5 @@ class FDProcess:
 
         wfile.write("number of windows processed: {}\n".format(numWindowsProcessed))
 
-        #checking if the image was correctly processed
-        if image == "sf6-resized1000,500.jpeg": 
-            if fireDetected:
-                numCorrect+=1
-                wfile.write("Correctly Processed\n")
-            else: wfile.write("Incorrectly Processed\n")
-        elif image == "sf6-no fire.jpg": 
-            if not fireDetected:
-                numCorrect+=1
-                wfile.write("Correctly Processed\n")
-            else: wfile.write("Incorrectly Processed\n")
-        elif image == "sf6-no smoke.jpg": 
-            if fireDetected:
-                numCorrect+=1
-                wfile.write("Correctly Processed\n")
-            else: wfile.write("Incorrectly Processed\n")
-        elif image == "sf6-no water.jpg": 
-            if fireDetected:
-                numCorrect+=1
-                wfile.write("Correctly Processed\n")
-            else: wfile.write("Incorrectly Processed\n")
-        elif image == "sf6-very small fire.jpg":
-            if fireDetected:
-                numCorrect+=1
-                wfile.write("Correctly Processed\n")
-            else: wfile.write("Incorrectly Processed\n")
-        else: print("{} accuracy unknown".format(image))
-
         cv2.destroyAllWindows()
-        return numCorrect
+        return fireDetected

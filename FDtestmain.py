@@ -1,9 +1,12 @@
-#change framework to be compatible with the Pi (python version 3.5.7) for easy updating on the Pi
-
 import time
 import sys
 import FDprocess as fdp
 import FDparams as fdparams
+import FDcorrectnesschecker as fdcc
+
+#VERY IMPORTANT THAT THESE CONSTANTS ARE SET CORRECTLY OTHERWISE PROGRAM WON'T WORK PROPERLY
+initHeight=500
+initWidth=1000
 
 #scale, window, and step paramaters. these parameters are taken in as command line arguments
 #values should be > 0. should also be <= 1 for reasonable applications, but technically doesn't have to be
@@ -27,9 +30,6 @@ stepHeightp = float(sys.argv[6]) #percentage of the window height that should be
 
 outputFilename = str(scale)+"-"+("%d" % percentageOrSet)+"-{}-{}-{}-{}.txt".format(winWidth,winHeight,stepWidthp,stepHeightp)
 writeFile = open("./output/"+outputFilename,'w')
-
-initHeight=500
-initWidth=1000
 writeFile.write("original image height: {}, original image width: {}\n".format(initHeight,initWidth))
 
 scaledHeight = (int)(initHeight*scale)
@@ -59,25 +59,37 @@ writeFile.write("--------------------------------------------------------\n")
 params = fdparams.FDparams(writeFile,scale,scaledHeight,scaledWidth,windowWidth,windowHeight,stepWidth,stepHeight,pixelThreshold)
 imageProcessor = fdp.FDProcess(params)
 
-images = ["sf6-resized1000,500.jpeg", "sf6-no fire.jpg", "sf6-no smoke.jpg", "sf6-no water.jpg", "sf6-very small fire.jpg"]
+images = ["sf6-resized1000,500.jpeg", "sf6.2.jpg", "sf6.3.jpg", "sf6.5.jpg", "sf6-no fire.jpg", "sf6-no smoke.jpg", "sf6-no water.jpg", "sf6-very small fire.jpg"]
+# images = ["hazmonDB/hazmonDB1.jpeg","hazmonDB/hazmonDB2.jpeg","hazmonDB/hazmonDB3.jpeg","hazmonDB/hazmonDB4.jpeg","hazmonDB/hazmonDB5.jpeg","hazmonDB/hazmonDB6.jpeg","hazmonDB/hazmonDB7.jpeg",
+#           "hazmonDB/hazmonDB8.jpeg","hazmonDB/hazmonDB9.jpeg","hazmonDB/hazmonDB10.jpeg","hazmonDB/hazmonDB11.jpeg","hazmonDB/hazmonDB12.jpeg",]
+numImages = len(images)
+numIterationsPerImage=100
 #apparently should use python 'timeit' module to measure program execution duration
 start = time.time()
-for fn in images:
-    numIterationsPerImage=5
+for i in range(numIterationsPerImage):
     sum=0
-    for i in range(numIterationsPerImage): #do each image five times, print each time and then print the average
+    for j in range(numImages): #do each image five times, print each time and then print the average
+        image = images[j]
         start2 = time.time()
-        numCorrect = imageProcessor.processImage(fn,numCorrect)
+        detected = imageProcessor.processImage(image)
         end2 = time.time()
         elapsed = end2-start2
-        writeFile.write(("%.7f" % elapsed)+" seconds\n-------\n")
+        writeFile.write(("%.7f" % elapsed)+" seconds\n")
         sum+=elapsed
-    avg=sum/numIterationsPerImage
-    writeFile.write("Average time for {} iterations: ".format(numIterationsPerImage)+("%.7f"%avg)+"\n")
+        correctness = fdcc.checkCorrectness(image,detected)
+        if correctness == 1: writeFile.write("Correctly processed\n"); numCorrect+=1
+        elif correctness == 0: writeFile.write("Incorrectly processsed\n")
+        else: writeFile.write("Fire detection accuracy unknown\n")
+        writeFile.write("-------\n")
+    avg=sum/numImages
+    writeFile.write("Average time for {} images: ".format(numImages)+("%.7f"%avg)+"\n")
     writeFile.write("-------------------------------------------------\n")
 end = time.time()
 writeFile.write("--------------------------------------------------------\n")
-numAllDetections = numIterationsPerImage*len(images)
+numAllDetections = numIterationsPerImage*numImages
+
+#not a completely correct time cause there is overhead of checking processing accuracy that would not happen in a real situation
 writeFile.write("Total time to process all {} images: ".format(numAllDetections)+("%.7f" % (end-start))+" seconds\n")
-writeFile.write("Accuracy: {}/{} = ".format(numCorrect,numAllDetections)+("%.0f"%((numCorrect/numAllDetections)*100))+"%\n")
+
+writeFile.write("Accuracy: {}/{} = ".format(numCorrect,numAllDetections)+("%.0f"%((numCorrect/numAllDetections)*100))+"%\n") 
 writeFile.close()
