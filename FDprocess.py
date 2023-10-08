@@ -1,4 +1,5 @@
 # this program is a version of 'firedetection.py' that is intended for performance testing
+# could change the algorithm so that it doesn't process the large amount of black pixels that may be present in the subtracted image
 
 import cv2
 import numpy as np
@@ -7,21 +8,25 @@ class FDProcess:
     def __init__(self, parameters):
         self.params = parameters
 
-    def processImage(self, image):
+    def processImage(self, baseImage, image):
         params = self.params
         
         wfile = params.writeFile
         wfile.write("\"{}\"\n".format(image))
         initFrame = cv2.imread("./input images/"+image)
+        difference = cv2.absdiff(baseImage, initFrame)
         
         #resizing frame based on scale
-        scaled = cv2.resize(initFrame, None, fx=params.scale, fy=params.scale)
+        scaled = cv2.resize(difference, None, fx=params.scale, fy=params.scale)
+        #cv2.imshow("scaled bottom right",scaled[250:500,500:1000]); cv2.waitKey(0)
+        #cv2.imwrite("./subtracted images/"+image,scaled)
+        
 
         boundaries = [[0,50,191],[160,220,255]] #fire boundaries
         lower = np.array(boundaries[0])
         upper = np.array(boundaries[1])
-        # mask1 = cv2.inRange(frame,lower,upper)
-        # cv2.imwrite(f"./masks/{boundaries}{fn}",mask1)
+        # mask1 = cv2.inRange(scaled,lower,upper)
+        # cv2.imwrite(f"./masks/{boundaries}{image}",mask1)
 
         numWindowsProcessed=0 #this can be deleted, doesn't affect program functionality
         scaledHeight = params.scaledHeight
@@ -49,8 +54,11 @@ class FDProcess:
                     xWinLen+=(windowWidth-(xLenNxtWin-scaledWidth))
                     widthOutOfBounds = True
                 window = scaled[y:(yWinLen),x:(xWinLen)]
+                # cv2.imshow("scaled",scaled); cv2.waitKey(0)
+                # cv2.imshow("window",window); cv2.waitKey(0)
                 mask = cv2.inRange(window, lower, upper)
                 numRed = cv2.countNonZero(mask)
+                print("{}; numred: {}, range=[{}:{},{}:{}]".format(image,numRed,y,yWinLen,x,xWinLen))
                 if numRed>pixelThreshold:
                     wfile.write("fire detected, numRed={}, range=[{}:{},{}:{}]\n".format(numRed,y,yWinLen,x,xWinLen))
                     fireDetected = True

@@ -1,5 +1,6 @@
 import time
 import sys
+import cv2
 import FDprocess as fdp
 import FDparams as fdparams
 import FDcorrectnesschecker as fdcc
@@ -59,11 +60,13 @@ writeFile.write("--------------------------------------------------------\n")
 params = fdparams.FDparams(writeFile,scale,scaledHeight,scaledWidth,windowWidth,windowHeight,stepWidth,stepHeight,pixelThreshold)
 imageProcessor = fdp.FDProcess(params)
 
-images = ["sf6-resized1000,500.jpeg", "sf6.2.jpg", "sf6.3.jpg", "sf6.5.jpg", "sf6-no fire.jpg", "sf6-no smoke.jpg", "sf6-no water.jpg", "sf6-very small fire.jpg"]
-# images = ["hazmonDB/hazmonDB1.jpeg","hazmonDB/hazmonDB2.jpeg","hazmonDB/hazmonDB3.jpeg","hazmonDB/hazmonDB4.jpeg","hazmonDB/hazmonDB5.jpeg","hazmonDB/hazmonDB6.jpeg","hazmonDB/hazmonDB7.jpeg",
-#           "hazmonDB/hazmonDB8.jpeg","hazmonDB/hazmonDB9.jpeg","hazmonDB/hazmonDB10.jpeg","hazmonDB/hazmonDB11.jpeg","hazmonDB/hazmonDB12.jpeg",]
+baseImage  = cv2.imread("./input images/sf6-no fire.jpg")
+# print("baseimage height: %d, baseimage width: %d".format(len(baseImage),len(baseImage[0])))
+images = ["sf6-resized1000,500.jpeg", "sf6.2.jpg", "sf6.3.jpg", "sf6.5.jpg", "sf6-no smoke.jpg", "sf6-no water.jpg", "sf6-very small fire.jpg"]
+# images = ["hazmonDB1.jpeg","hazmonDB2.jpeg","hazmonDB3.jpeg","hazmonDB4.jpeg","hazmonDB5.jpeg","hazmonDB6.jpeg","hazmonDB7.jpeg",
+#           "hazmonDB8.jpeg","hazmonDB9.jpeg","hazmonDB10.jpeg","hazmonDB11.jpeg"]
 numImages = len(images)
-numIterationsPerImage=100
+numIterationsPerImage=1
 #apparently should use python 'timeit' module to measure program execution duration
 start = time.time()
 for i in range(numIterationsPerImage):
@@ -71,7 +74,7 @@ for i in range(numIterationsPerImage):
     for j in range(numImages): #do each image five times, print each time and then print the average
         image = images[j]
         start2 = time.time()
-        detected = imageProcessor.processImage(image)
+        detected = imageProcessor.processImage(baseImage, image)
         end2 = time.time()
         elapsed = end2-start2
         writeFile.write(("%.7f" % elapsed)+" seconds\n")
