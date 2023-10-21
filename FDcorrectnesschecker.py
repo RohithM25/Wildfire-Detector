@@ -1,22 +1,59 @@
-#will return 0 if image processed incorrectly, 1 if image was processed incorrectly, and -1 if the correctness is unknown
+#will return (1,0) if image was processed correctly, and -1 if the correctness is unknown
+#will return tuple if the image was processed incorrectly (0,0) it was false positive, (0,1) if it was a false negative
 def checkCorrectness(image, detected):
-    if image == "sf6-resized1000,500.jpeg": return 1 if detected else 0
-    elif image == "sf6.2.jpg": return 1 if detected else 0
-    elif image == "sf6.3.jpg": return 1 if detected else 0
-    elif image == "sf6.5.jpg": return 1 if detected else 0
-    elif image == "sf6-no fire.jpg": return 1 if not detected else 0
-    elif image == "sf6-no smoke.jpg": return 1 if detected else 0
-    elif image == "sf6-no water.jpg": return 1 if detected else 0
-    elif image == "sf6-very small fire.jpg": return 1 if detected else 0
-    elif image == "hazmonDB1.jpeg": return 1 if not detected else 0
-    elif image == "hazmonDB2.jpeg": return 1 if not detected else 0
-    elif image == "hazmonDB3.jpeg": return 1 if not detected else 0
-    elif image == "hazmonDB4.jpeg": return 1 if not detected else 0
-    elif image == "hazmonDB5.jpeg": return 1 if not detected else 0
-    elif image == "hazmonDB6.jpeg": return 1 if not detected else 0
-    elif image == "hazmonDB7.jpeg": return 1 if not detected else 0
-    elif image == "hazmonDB8.jpeg": return 1 if not detected else 0
-    elif image == "hazmonDB9.jpeg": return 1 if not detected else 0
-    elif image == "hazmonDB10.jpeg": return 1 if not detected else 0
-    elif image == "hazmonDB11.jpeg": return 1 if not detected else 0
-    else: return -1
+    if image == "sf6-resized1000,500.jpeg": return (1,0) if detected else (0,1)
+    elif image == "1-1200.jpg": return (1,0) if not detected else (0,0)
+    elif image == "1+0000.jpg": return (1,0) if not detected else (0,0)
+    elif image == "1+1200.jpg": return (1,0) if detected else (0,1)
+    elif image == "1+2400.jpg": return (1,0) if detected else (0,1)
+    elif image == "2-1200.jpg": return (1,0) if not detected else (0,0)
+    elif image == "2+0000.jpg": return (1,0) if not detected else (0,0)
+    elif image == "2+1200.jpg": return (1,0) if detected else (0,1)
+    elif image == "2+2400.jpg": return (1,0) if detected else (0,1)
+    elif image == "3-1200.jpg": return (1,0) if not detected else (0,0)
+    elif image == "3+0000.jpg": return (1,0) if not detected else (0,0)
+    elif image == "3+1200.jpg": return (1,0) if detected else (0,1)
+    elif image == "3+2400.jpg": return (1,0) if detected else (0,1)
+    elif image == "4-1200.jpg": return (1,0) if not detected else (0,0)
+    elif image == "4-0420.jpg": return (1,0) if not detected else (0,0)
+    elif image == "4+1200.jpg": return (1,0) if detected else (0,1)
+    elif image == "4+2400.jpg": return (1,0) if detected else (0,1)
+    elif image == "5-1200.jpg": return (1,0) if not detected else (0,0)
+    elif image == "5+0000.jpg": return (1,0) if not detected else (0,0)
+    elif image == "5+1200.jpg": return (1,0) if detected else (0,1)
+    elif image == "5+2400.jpg": return (1,0) if detected else (0,1)
+    elif image == "7-1200.jpg": return (1,0) if not detected else (0,0)
+    elif image == "7+0000.jpg": return (1,0) if not detected else (0,0)
+    elif image == "7+1200.jpg": return (1,0) if detected else (0,1)
+    elif image == "7+2400.jpg": return (1,0) if detected else (0,1)
+    elif image == "8-1200.jpg": return (1,0) if not detected else (0,0)
+    elif image == "8+0000.jpg": return (1,0) if not detected else (0,0)
+    elif image == "8+1200.jpg": return (1,0) if detected else (0,1)
+    elif image == "8+2400.jpg": return (1,0) if detected else (0,1)
+    elif image == "9-1200.jpg": return (1,0) if not detected else (0,0)
+    elif image == "9+0000.jpg": return (1,0) if not detected else (0,0)
+    elif image == "9+1200.jpg": return (1,0) if detected else (0,1)
+    elif image == "9+2400.jpg": return (1,0) if detected else (0,1)
+    elif image == "10-1200.jpg": return (1,0) if not detected else (0,0)
+    elif image == "10+0000.jpg": return (1,0) if not detected else (0,0)
+    elif image == "10+1200.jpg": return (1,0) if detected else (0,1)
+    elif image == "10+2400.jpg": return (1,0) if detected else (0,1)
+    elif image == "sf6.2.jpg": return (1,0) if detected else (0,1)
+    elif image == "sf6.3.jpg": return (1,0) if detected else (0,1)
+    elif image == "sf6.5.jpg": return (1,0) if detected else (0,1)
+    elif image == "sf6-no fire.jpg": return (1,0) if not detected else (0,0)
+    elif image == "sf6-no smoke.jpg": return (1,0) if detected else (0,1)
+    elif image == "sf6-no water.jpg": return (1,0) if detected else (0,1)
+    elif image == "sf6-very small fire.jpg": return (1,0) if detected else (0,1)
+    elif image == "hazmonDB1.jpeg": return (1,0) if not detected else (0,0)
+    elif image == "hazmonDB2.jpeg": return (1,0) if not detected else (0,0)
+    elif image == "hazmonDB3.jpeg": return (1,0) if not detected else (0,0)
+    elif image == "hazmonDB4.jpeg": return (1,0) if not detected else (0,0)
+    elif image == "hazmonDB5.jpeg": return (1,0) if not detected else (0,0)
+    elif image == "hazmonDB6.jpeg": return (1,0) if not detected else (0,0)
+    elif image == "hazmonDB7.jpeg": return (1,0) if not detected else (0,0)
+    elif image == "hazmonDB8.jpeg": return (1,0) if not detected else (0,0)
+    elif image == "hazmonDB9.jpeg": return (1,0) if not detected else (0,0)
+    elif image == "hazmonDB10.jpeg": return (1,0) if not detected else (0,0)
+    elif image == "hazmonDB11.jpeg": return (1,0) if not detected else (0,0)
+    else: return (-1,0)
