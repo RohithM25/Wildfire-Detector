@@ -13,11 +13,12 @@ class FDProcess:
         wfile = params.writeFile
         wfile.write("\"{}\"\n".format(image))
         initFrame = cv2.imread("./input images/HPWREN/"+image)
-        difference = cv2.absdiff(initFrame,baseImage)
         
         #resizing frame based on scale
         scaledOriginal = cv2.resize(initFrame, None, fx=params.scale, fy=params.scale)
-        scaledDiff = cv2.resize(difference, None, fx=params.scale, fy=params.scale)
+        #cv2.imwrite("./scaled images/scale={}-{}".format(params.scale,image),scaledOriginal)
+
+        scaledDiff = cv2.absdiff(scaledOriginal,baseImage)
         #cv2.imshow("scaledDiff bottom right",scaledDiff[250:500,500:1000]); cv2.waitKey(0)
         #cv2.imwrite("./subtracted images/"+image,scaledDiff)        
 
@@ -28,6 +29,7 @@ class FDProcess:
         windowWidth = params.winWidth
         stepHeight = params.stepHeight
         stepWidth = params.stepWidth
+        args = params.argsStr
         pixelThreshold = params.pixelThreshold
         drawBox = params.drawBox
 
@@ -51,6 +53,7 @@ class FDProcess:
                 diffWindow = scaledDiff[y:(yWinLen),x:(xWinLen)]
                 originalWindow = scaledOriginal[y:(yWinLen),x:(xWinLen)]
                 fireDetected = self.checkGreyPixels(originalWindow, diffWindow, (yWinLen-y), (xWinLen-x), pixelThreshold)
+                #change this ^^ method signature to take y, yWinLen, x, xWinLen and the baseImage
                 if fireDetected: 
                     wfile.write("fire detected, range=[{}:{},{}:{}]\n".format(y,yWinLen,x,xWinLen))
                     numWinWithFire+=1
@@ -60,7 +63,9 @@ class FDProcess:
             if heightOutOfBounds or (fireDetected and not drawBox): break
 
         wfile.write("number of windows processed: {}\n".format(numWindowsProcessed))
-        if drawBox: cv2.imwrite("./boxed images/"+image,scaledOriginal)
+        if drawBox: 
+            imageSplit = (image.split(".")) #splitting the image into its name and file extension
+            cv2.imwrite("./boxed images/{}/'{}'.{}".format(args,imageSplit[0],imageSplit[1]),scaledOriginal)
 
         cv2.destroyAllWindows()
         return (numWinWithFire>0)
@@ -69,18 +74,25 @@ class FDProcess:
     #for each pixel in the subtracted image whose RGB values average out to greater than 40 (signfies a signficant difference from the inital image, slightly arbitrary calibration)
         #check that pixel in the initial image to see if it is grey or not
         #"grey" means that the difference between any two channels cannot be greater than 20 and no channel can be less than 100 (slightly arbitrary calibration)
+        #blue color range for [R,G,B]: [0-180,100-200,140-255]
     def checkGreyPixels(self, originalFrame, diffFrame, frameHeight, frameWidth, pixThreshold):
         numGrey = 0
+        darkCalib = 100 #"darkness calibration": slightly arbitrary value used to exclude pixels that are below a certain pixel channel value (pixels that are too dark/black)
+        pvt = 20 #"pixel variability threshold": slightly arbitrary value used to exclude pixels that are "not grey enough"
         for y in range(frameHeight):
             for x in range(frameWidth):
                 diffPixel = diffFrame[y][x]
                 avg = (int)((diffPixel[0]+diffPixel[1]+diffPixel[2])/3)
-                if avg>40:
+                if avg>30:
                     originalPixel = originalFrame[y][x]
                     #the following condition checks whether the channles of the pixel are within 20 units of each other and each channel is > 100
-                    isGrey = (((abs(originalPixel[0]-originalPixel[1]))<20) and ((abs(originalPixel[0]-originalPixel[2]))<20) and ((abs(originalPixel[1]-originalPixel[2]))<20)
-                                 and (originalPixel[0]>100) and (originalPixel[1]>100) and (originalPixel[2]>100))
-                    if isGrey: numGrey+=1          
+                    isGrey = (((abs(originalPixel[0]-originalPixel[1]))<pvt) and ((abs(originalPixel[0]-originalPixel[2]))<pvt) and ((abs(originalPixel[1]-originalPixel[2]))<pvt)
+                                 and (originalPixel[0]>darkCalib) and (originalPixel[1]>darkCalib) and (originalPixel[2]>darkCalib))
+                    if isGrey: numGrey+=1   
+                    else: #check if it's a "greyed blue"
+                        #is greyed blue means for the BGR channels: the B value has dropped by at least 20, G fell by at least 10, R value doesn't matter
+                        
+                        pass       
         #print("counter: "+str(counter)+", numGrey: "+str(numGrey))
         #cv2.imshow("masked window",originalFrame); cv2.waitKey(0)
         if numGrey > pixThreshold: return True
