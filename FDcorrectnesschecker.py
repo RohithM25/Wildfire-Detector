@@ -1,5 +1,5 @@
 #will return (1,0) if image was processed correctly, and -1 if the correctness is unknown
-#will return tuple if the image was processed incorrectly (0,0) it was false positive, (0,1) if it was a false negative
+#will return tuple if the image was processed incorrectly: (0,0) it was false positive, (0,1) if it was a false negative
 def checkCorrectness(image, detected):
     if image == "sf6-resized1000,500.jpeg": return (1,0) if detected else (0,1)
     elif image == "1-1200.jpg": return (1,0) if not detected else (0,0)
